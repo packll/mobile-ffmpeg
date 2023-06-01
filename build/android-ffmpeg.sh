@@ -373,7 +373,6 @@ ${SED_INLINE} 's/static int av_log_level/__thread int av_log_level/g' ${BASEDIR}
     --enable-pic \
     --enable-jni \
     --enable-optimizations \
-    --enable-swscale \
     --enable-shared \
     --enable-v4l2-m2m \
     --disable-outdev=fbdev \
@@ -409,6 +408,43 @@ ${SED_INLINE} 's/static int av_log_level/__thread int av_log_level/g' ${BASEDIR}
     --disable-nvenc \
     --disable-vaapi \
     --disable-vdpau \
+    --disable-gpl \
+    --disable-nonfree \
+    --disable-gray \
+    --disable-swscale-alpha \
+    --disable-doc \
+    --disable-htmlpages \
+    --disable-manpages \
+    --disable-podpages \
+    --disable-txtpages \
+    --disable-avdevice \
+    --enable-avcodec \
+    --enable-avformat \
+    --enable-avutil \
+    --enable-swresample \
+    --disable-swscale \
+    --disable-avfilter \
+    --disable-avresample \
+    --enable-network \
+    --disable-encoders \
+    --disable-decoders \
+    --enable-decoder=aac \
+    --enable-decoder=aac_latm \
+    --enable-decoder=mp3* \
+    --enable-decoder=flac \
+    --enable-decoder=wmav1 \
+    --enable-decoder=wmav2 \
+    --enable-decoder=wavpack \
+    --enable-decoder=wav \
+    --enable-decoder=pcm_s16le \
+    --disable-devices \
+    --disable-filters \
+    --disable-ffprobe \
+    --disable-ffplay \
+    --disable-ffmpeg \
+    --disable-debug \
+    --disable-symver \
+    --disable-stripping \
     ${CONFIGURE_POSTFIX} 1>>${BASEDIR}/build.log 2>&1
 
 if [ $? -ne 0 ]; then
