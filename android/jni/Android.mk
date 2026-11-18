@@ -50,12 +50,14 @@ LOCAL_STATIC_LIBRARIES := cpu-features
 LOCAL_ARM_NEON := ${MY_ARM_NEON}
 include $(BUILD_SHARED_LIBRARY)
 
+# 仅音频解码的 FFmpeg 构建不包含 avfilter/avdevice/swscale，
+# fftools_* 命令行实现无法编译，统一改用 fftools_stub.c。
 ifeq ($(TARGET_PLATFORM),android-16)
-    MY_SRC_FILES := mobileffmpeg.c mobileffprobe.c android_lts_support.c mobileffmpeg_exception.c fftools_cmdutils.c fftools_ffmpeg.c fftools_ffprobe.c fftools_ffmpeg_opt.c fftools_ffmpeg_hw.c fftools_ffmpeg_filter.c
+    MY_SRC_FILES := mobileffmpeg.c mobileffprobe.c android_lts_support.c mobileffmpeg_exception.c fftools_stub.c
 else ifeq ($(TARGET_PLATFORM),android-17)
-    MY_SRC_FILES := mobileffmpeg.c mobileffprobe.c android_lts_support.c mobileffmpeg_exception.c fftools_cmdutils.c fftools_ffmpeg.c fftools_ffprobe.c fftools_ffmpeg_opt.c fftools_ffmpeg_hw.c fftools_ffmpeg_filter.c
+    MY_SRC_FILES := mobileffmpeg.c mobileffprobe.c android_lts_support.c mobileffmpeg_exception.c fftools_stub.c
 else
-    MY_SRC_FILES := mobileffmpeg.c mobileffprobe.c mobileffmpeg_exception.c fftools_cmdutils.c fftools_ffmpeg.c fftools_ffprobe.c fftools_ffmpeg_opt.c fftools_ffmpeg_hw.c fftools_ffmpeg_filter.c
+    MY_SRC_FILES := mobileffmpeg.c mobileffprobe.c mobileffmpeg_exception.c fftools_stub.c
 endif
 
 MY_CFLAGS := -Wall -Werror -Wno-unused-parameter -Wno-switch -Wno-sign-compare
@@ -71,7 +73,7 @@ ifeq ($(MY_ARMV7_NEON), true)
     LOCAL_SRC_FILES := $(MY_SRC_FILES)
     LOCAL_CFLAGS := $(MY_CFLAGS)
     LOCAL_LDLIBS := $(MY_LDLIBS)
-    LOCAL_SHARED_LIBRARIES := libavcodec_neon libavfilter_neon libswscale_neon libavformat_neon libavutil_neon libswresample_neon libavdevice_neon
+    LOCAL_SHARED_LIBRARIES := libavcodec_neon libavformat_neon libavutil_neon libswresample_neon
     ifeq ($(APP_STL), c++_shared)
         LOCAL_SHARED_LIBRARIES += c++_shared # otherwise NDK will not add the library for packaging
     endif
@@ -93,7 +95,7 @@ ifeq ($(MY_BUILD_GENERIC_MOBILE_FFMPEG), true)
     LOCAL_SRC_FILES := $(MY_SRC_FILES)
     LOCAL_CFLAGS := $(MY_CFLAGS)
     LOCAL_LDLIBS := $(MY_LDLIBS)
-    LOCAL_SHARED_LIBRARIES := libavfilter libavformat libavcodec libavutil libswresample libavdevice libswscale
+    LOCAL_SHARED_LIBRARIES := libavformat libavcodec libavutil libswresample
     ifeq ($(APP_STL), c++_shared)
         LOCAL_SHARED_LIBRARIES += c++_shared # otherwise NDK will not add the library for packaging
     endif

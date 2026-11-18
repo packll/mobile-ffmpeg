@@ -18,7 +18,9 @@
  */
 
 #include "cpu-features.h"
-#include "fftools_ffmpeg.h"
+/* 只需要 FFMPEG_CONFIGURATION 宏，直接包含 config.h，
+ * 避免 fftools_ffmpeg.h 间接引入未构建的 libavfilter 头文件。 */
+#include "config.h"
 #include "mobileffmpeg_abidetect.h"
 
 /** Full name of the Java class that owns native functions in this file. */

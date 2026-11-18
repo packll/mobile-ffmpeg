@@ -58,14 +58,12 @@ LIBRARY_MEDIA_CODEC=46
 LIBRARY_CPU_FEATURES=47
 
 # ENABLE ARCH
-ENABLED_ARCHITECTURES=(1 0 1 0 0)
+ENABLED_ARCHITECTURES=(0 0 1 0 0)
 
 # ENABLE LIBRARIES
 ENABLED_LIBRARIES=(0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1)
 
 export BASEDIR=$(pwd)
-export ANDROID_NDK_ROOT=/Users/liulei/Library/Android/android-ndk-r20b
-
 
 
 # USING API LEVEL 24 / Android 7.0 (NOUGAT)
@@ -87,7 +85,7 @@ display_help() {
   echo -e "\n'"$COMMAND"' builds FFmpeg and MobileFFmpeg for Android platform. By default five Android ABIs (armeabi-v7a, armeabi-v7a-neon, arm64-v8a, x86 and x86_64) are built \
 without any external libraries enabled. Options can be used to disable ABIs and/or enable external libraries. \
 Please note that GPL libraries (external libraries with GPL license) need --enable-gpl flag to be set explicitly. \
-When compilation ends an Android Archive (AAR) file is created under the prebuilt folder.\n"
+When compilation ends native shared libraries (.so) are created under the android/libs folder.\n"
 
   echo -e "Usage: ./"$COMMAND" [OPTION]...\n"
 
@@ -652,6 +650,15 @@ BUILD_FULL=""
 BUILD_TYPE_ID=""
 BUILD_VERSION=$(git describe --tags 2>>${BASEDIR}/build.log)
 
+# 仓库没有 tag 时 git describe --tags 会失败（fatal: No names found），
+# 依次回退到提交哈希和 mobileffmpeg.h 中的版本号，避免 BUILD_VERSION 为空导致退出。
+if [[ -z ${BUILD_VERSION} ]]; then
+  BUILD_VERSION=$(git describe --tags --always 2>>${BASEDIR}/build.log)
+fi
+if [[ -z ${BUILD_VERSION} ]]; then
+  BUILD_VERSION=$(get_mobile_ffmpeg_version)
+fi
+
 while [ ! $# -eq 0 ]; do
 
   case $1 in
@@ -853,16 +860,19 @@ if [[ ! -z ${ANDROID_ARCHITECTURES} ]]; then
 
   build_application_mk
 
-  MOBILE_FFMPEG_AAR=${BASEDIR}/prebuilt/android-aar/mobile-ffmpeg
-
-  # BUILDING ANDROID ARCHIVE LIBRARY
+  # 仅编译 so 并输出到 android/libs，不再执行 gradle AAR 打包
   rm -rf ${BASEDIR}/android/libs 1>>${BASEDIR}/build.log 2>&1
-
-  mkdir -p ${MOBILE_FFMPEG_AAR} 1>>${BASEDIR}/build.log 2>&1
 
   cd ${BASEDIR}/android 1>>${BASEDIR}/build.log 2>&1
 
-  ${ANDROID_NDK_ROOT}/ndk-build -B 1>>${BASEDIR}/build.log 2>&1
+  NDK_BUILD_CMD="${ANDROID_NDK_ROOT}/ndk-build"
+  if [[ $(uname -s) == "Darwin" ]] && [[ $(uname -m) == "arm64" ]]; then
+    # NDK 21.x 的 ndk-build 无法识别 Apple Silicon
+    # （ERROR: Unknown host CPU architecture: arm64），且只带 x86_64 工具链，
+    # 这里通过 Rosetta 以 x86_64 运行。
+    NDK_BUILD_CMD="arch -x86_64 ${NDK_BUILD_CMD}"
+  fi
+  ${NDK_BUILD_CMD} -B 1>>${BASEDIR}/build.log 2>&1
 
   if [ $? -eq 0 ]; then
     echo "ok"
@@ -871,23 +881,7 @@ if [[ ! -z ${ANDROID_ARCHITECTURES} ]]; then
     exit 1
   fi
 
-  echo -e -n "\n\nCreating Android archive under prebuilt/android-aar: "
-
-  ./gradlew app:clean app:assembleRelease app:testReleaseUnitTest 1>>${BASEDIR}/build.log 2>&1
-
-  if [ $? -ne 0 ]; then
-    echo -e "failed\n"
-    exit 1
-  fi
-
-  cp ${BASEDIR}/android/app/build/outputs/aar/mobile-ffmpeg-release.aar ${MOBILE_FFMPEG_AAR}/mobile-ffmpeg.aar 1>>${BASEDIR}/build.log 2>&1
-
-  if [ $? -ne 0 ]; then
-    echo -e "failed\n"
-    exit 1
-  fi
-
-  echo -e "Created mobile-ffmpeg Android archive successfully.\n" 1>>${BASEDIR}/build.log 2>&1
-
-  echo -e "ok\n"
+  echo -e "\nNative libraries created under ${BASEDIR}/android/libs:"
+  ls -1 ${BASEDIR}/android/libs
+  echo ""
 fi

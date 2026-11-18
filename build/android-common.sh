@@ -115,6 +115,13 @@ get_toolchain() {
         x86_64|amd64) HOST_ARCH=x86_64;;
     esac
 
+    # Apple Silicon 上 uname -m 为 arm64，但部分 NDK（如 21.x）的 macOS 包
+    # 只提供 darwin-x86_64 预编译工具链。此时必须回退，否则 sysroot/bin 路径不存在。
+    if [[ "${HOST_OS}-${HOST_ARCH}" == "darwin-arm64" ]] && \
+       [[ ! -d "${ANDROID_NDK_ROOT}/toolchains/llvm/prebuilt/darwin-arm64" ]]; then
+        HOST_ARCH=x86_64
+    fi
+
     echo "${HOST_OS}-${HOST_ARCH}"
 }
 

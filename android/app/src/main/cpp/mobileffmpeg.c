@@ -24,7 +24,9 @@
 #include "config.h"
 #include "libavcodec/jni.h"
 #include "libavutil/bprint.h"
-#include "fftools_ffmpeg.h"
+/* 当前构建只保留音频解码相关的 FFmpeg 库，不再编译 fftools_* 命令行实现
+ * （fftools_cmdutils.h 会引入未构建的 libavfilter/avfilter.h）。
+ * ffmpeg_execute / cancel_operation 由 fftools_stub.c 提供。 */
 #include "mobileffmpeg.h"
 #include "mobileffprobe.h"
 
@@ -122,8 +124,15 @@ JNINativeMethod configMethods[] = {
     {"ignoreNativeSignal", "(I)V", (void*) Java_com_arthenica_mobileffmpeg_Config_ignoreNativeSignal}
 };
 
-/** Forward declaration for function defined in fftools_ffmpeg.c */
+/** Forward declarations, implemented in fftools_stub.c for this audio-only build */
 int ffmpeg_execute(int argc, char **argv);
+void cancel_operation(long id);
+void set_report_callback(void (*callback)(int, float, float, int64_t, int, double, double));
+
+/* 原定义位于不再编译的 fftools_cmdutils.h */
+#ifndef AV_LOG_STDERR
+#define AV_LOG_STDERR -16
+#endif
 
 static const char *avutil_log_get_level_str(int level) {
     switch (level) {
