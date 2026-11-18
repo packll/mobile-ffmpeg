@@ -24,13 +24,13 @@ AM_PROG_AR
 AC_PROG_OBJC
 CFLAGS="$cflags_bckup"
 
-FFMPEG_LIBS="-lavcodec -lavfilter -lavformat -lavutil -lswscale -lswresample"
+FFMPEG_LIBS="-lavcodec -lavformat -lavutil -lswresample"
 AC_SUBST(FFMPEG_LIBS)
 
 LT_INIT
 
 # Checks for header files.
-AC_CHECK_HEADERS([libavformat/avformat.h libavcodec/avcodec.h libavfilter/avfilter.h libavutil/avutil.h libswresample/swresample.h], [], [
+AC_CHECK_HEADERS([libavformat/avformat.h libavcodec/avcodec.h libavutil/avutil.h libswresample/swresample.h], [], [
   AC_MSG_ERROR([unable to find ffmpeg headers])
 ])
 AC_CHECK_HEADERS([fcntl.h limits.h stdint.h stdlib.h string.h sys/ioctl.h sys/time.h termios.h unistd.h])

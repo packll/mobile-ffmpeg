@@ -20,8 +20,19 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include "libavutil/ffversion.h"
-#include "fftools_ffmpeg.h"
+/* 替代 fftools_ffmpeg.h / fftools_cmdutils.h，避免引入未编译的 libavfilter 头文件 */
+#include "libavutil/log.h"
+/* FFMPEG_CONFIGURATION 宏 */
+#include "config.h"
 #include "MobileFFmpegConfig.h"
+
+/* 原定义位于 fftools_cmdutils.h */
+#ifndef AV_LOG_STDERR
+#define AV_LOG_STDERR -16
+#endif
+
+/** 由 fftools_stub.c 提供 */
+void set_report_callback(void (*callback)(int, float, float, int64_t, int, double, double));
 #include "ArchDetect.h"
 #include "MobileFFmpeg.h"
 

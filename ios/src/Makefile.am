@@ -5,12 +5,7 @@ libmobileffmpeg_la_LIBADD = @FFMPEG_LIBS@
 libmobileffmpeg_la_SOURCES = \
     ArchDetect.m \
     AtomicLong.m \
-    fftools_cmdutils.c \
-    fftools_ffmpeg.c \
-    fftools_ffmpeg_filter.c \
-    fftools_ffmpeg_hw.c \
-    fftools_ffmpeg_opt.c \
-    fftools_ffprobe.c \
+    fftools_stub.c \
     FFmpegExecution.m \
     MediaInformation.m \
     MediaInformationParser.m \
@@ -21,9 +16,8 @@ libmobileffmpeg_la_SOURCES = \
     Statistics.m \
     StreamInformation.m
 
-if MOBILEFFMPEG_VIDEOTOOLBOX
-    libmobileffmpeg_la_SOURCES += fftools_ffmpeg_videotoolbox.c
-endif
+# 仅音频解码构建不包含 avfilter/swscale，fftools_* 命令行实现改用 fftools_stub.c，
+# fftools_ffmpeg_videotoolbox.c 同样不再编译。
 
 include_HEADERS = \
     ArchDetect.h \

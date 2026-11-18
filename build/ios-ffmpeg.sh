@@ -437,7 +437,8 @@ ${SED_INLINE} 's/static int av_log_level/__thread int av_log_level/g' ${BASEDIR}
     ${ARCH_OPTIONS} \
     --enable-inline-asm \
     --enable-optimizations \
-    --enable-swscale \
+    --disable-swscale \
+    --disable-avfilter \
     ${BUILD_LIBRARY_OPTIONS} \
     ${SIZE_OPTIONS}  \
     --disable-v4l2-m2m \

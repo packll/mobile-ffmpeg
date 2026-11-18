@@ -17,7 +17,9 @@
  * along with MobileFFmpeg.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "fftools_ffmpeg.h"
+/* fftools_ffmpeg.h 会引入未编译的 libavfilter 头文件，改为直接包含 libavutil/log.h；
+ * ffmpeg_execute / cancel_operation 由 fftools_stub.c 提供。 */
+#include "libavutil/log.h"
 
 #include "MobileFFmpeg.h"
 #include "ArchDetect.h"
@@ -25,8 +27,9 @@
 #include "AtomicLong.h"
 #include "FFmpegExecution.h"
 
-/** Forward declaration for function defined in fftools_ffmpeg.c */
+/** Forward declarations, implemented in fftools_stub.c for this audio-only build */
 int ffmpeg_execute(int argc, char **argv);
+void cancel_operation(long id);
 
 @implementation MobileFFmpeg
 

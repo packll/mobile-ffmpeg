@@ -62,7 +62,7 @@ LIBRARY_LIBICONV=48
 LIBRARY_LIBUUID=49
 
 # ENABLE ARCH
-ENABLED_ARCHITECTURES=(1 1 1 1 1 1 1)
+ENABLED_ARCHITECTURES=(0 0 1 1 0 0 0)
 
 # ENABLE LIBRARIES
 ENABLED_LIBRARIES=(0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0)
@@ -866,6 +866,15 @@ MOBILE_FFMPEG_XCF_BUILD=""
 BUILD_FORCE=""
 BUILD_VERSION=$(git describe --tags 2>>"${BASEDIR}/build.log")
 
+# 仓库没有 tag 时 git describe --tags 会失败（fatal: No names found），
+# 依次回退到提交哈希和 MobileFFmpeg.m 中的版本号，避免 BUILD_VERSION 为空导致退出。
+if [[ -z ${BUILD_VERSION} ]]; then
+  BUILD_VERSION=$(git describe --tags --always 2>>"${BASEDIR}/build.log")
+fi
+if [[ -z ${BUILD_VERSION} ]]; then
+  BUILD_VERSION=$(get_mobile_ffmpeg_version)
+fi
+
 while [ ! $# -eq 0 ]; do
   case $1 in
   -h | --help)
@@ -985,8 +994,10 @@ if [[ -n ${MOBILE_FFMPEG_LTS_BUILD} ]] && [[ "${DETECTED_IOS_SDK_VERSION}" != "$
   fi
 fi
 
-# DISABLE 32-bit architectures on newer IOS versions
-if [[ ${DETECTED_IOS_SDK_VERSION} == 11* ]] || [[ ${DETECTED_IOS_SDK_VERSION} == 12* ]] || [[ ${DETECTED_IOS_SDK_VERSION} == 13* ]]; then
+# DISABLE 32-bit architectures on SDK 11 and later
+# （Xcode 14 起彻底移除 32 位 iOS 支持，SDK 14+ 也必须禁用，否则报
+#  invalid iOS deployment version ... iOS 10 is the maximum deployment target for 32-bit targets）
+if [[ ${DETECTED_IOS_SDK_VERSION} != 10* ]]; then
   if [[ -z ${BUILD_FORCE} ]] && [[ ${ENABLED_ARCHITECTURES[${ARCH_ARMV7}]} -eq 1 ]]; then
     echo -e "INFO: Disabled armv7 architecture which is not supported on SDK ${DETECTED_IOS_SDK_VERSION}\n" 1>>"${BASEDIR}/build.log" 2>&1
     disable_arch "armv7"
@@ -1000,8 +1011,11 @@ if [[ ${DETECTED_IOS_SDK_VERSION} == 11* ]] || [[ ${DETECTED_IOS_SDK_VERSION} ==
     disable_arch "i386"
   fi
 
-# DISABLE arm64e architecture on older IOS versions
-elif [[ ${DETECTED_IOS_SDK_VERSION} != 10* ]]; then
+fi
+
+# DISABLE arm64e architecture on IOS versions newer than 13
+# （与 32 位检测拆成独立判断，避免被上面的分支跳过）
+if [[ ${DETECTED_IOS_SDK_VERSION} != 10* ]] && [[ ${DETECTED_IOS_SDK_VERSION} != 11* ]] && [[ ${DETECTED_IOS_SDK_VERSION} != 12* ]] && [[ ${DETECTED_IOS_SDK_VERSION} != 13* ]]; then
   if [[ -z ${BUILD_FORCE} ]] && [[ ${ENABLED_ARCHITECTURES[${ARCH_ARM64E}]} -eq 1 ]]; then
     echo -e "INFO: Disabled arm64e architecture which is not supported on SDK ${DETECTED_IOS_SDK_VERSION}\n" 1>>"${BASEDIR}/build.log" 2>&1
     disable_arch "arm64e"
@@ -1091,7 +1105,7 @@ for run_arch in {0..6}; do
   fi
 done
 
-FFMPEG_LIBS="libavcodec libavdevice libavfilter libavformat libavutil libswresample libswscale"
+FFMPEG_LIBS="libavcodec libavdevice libavformat libavutil libswresample"
 
 BUILD_LIBRARY_EXTENSION="a"
 

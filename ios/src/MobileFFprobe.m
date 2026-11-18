@@ -18,7 +18,8 @@
  */
 
 #include "libavutil/ffversion.h"
-#include "fftools_ffmpeg.h"
+/* 替代 fftools_ffmpeg.h，避免引入未编译的 libavfilter 头文件 */
+#include "libavutil/log.h"
 
 #include "MobileFFmpeg.h"
 #include "MobileFFmpegConfig.h"
