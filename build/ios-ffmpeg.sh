@@ -420,7 +420,7 @@ ${SED_INLINE} 's/static int av_log_level/__thread int av_log_level/g' ${BASEDIR}
 
 ./configure \
     --sysroot=${SDK_PATH} \
-    --prefix=${BASEDIR}/prebuilt/$(get_target_build_directory)/${LIB_NAME} \
+    --prefix=${PREBUILT_DIR}/$(get_target_build_directory)/${LIB_NAME} \
     --enable-version3 \
     --arch="${TARGET_ARCH}" \
     --cpu="${TARGET_CPU}" \
@@ -500,7 +500,7 @@ else
     fi
 fi
 
-rm -rf ${BASEDIR}/prebuilt/$(get_target_build_directory)/${LIB_NAME} 1>>${BASEDIR}/build.log 2>&1
+rm -rf ${PREBUILT_DIR}/$(get_target_build_directory)/${LIB_NAME} 1>>${BASEDIR}/build.log 2>&1
 make install 1>>${BASEDIR}/build.log 2>&1
 
 if [ $? -ne 0 ]; then
@@ -509,28 +509,28 @@ if [ $? -ne 0 ]; then
 fi
 
 # MANUALLY ADD REQUIRED HEADERS
-mkdir -p ${BASEDIR}/prebuilt/$(get_target_build_directory)/ffmpeg/include/libavutil/x86
-mkdir -p ${BASEDIR}/prebuilt/$(get_target_build_directory)/ffmpeg/include/libavutil/arm
-mkdir -p ${BASEDIR}/prebuilt/$(get_target_build_directory)/ffmpeg/include/libavutil/aarch64
-mkdir -p ${BASEDIR}/prebuilt/$(get_target_build_directory)/ffmpeg/include/libavcodec/x86
-mkdir -p ${BASEDIR}/prebuilt/$(get_target_build_directory)/ffmpeg/include/libavcodec/arm
-cp -f ${BASEDIR}/src/ffmpeg/config.h ${BASEDIR}/prebuilt/$(get_target_build_directory)/ffmpeg/include
-cp -f ${BASEDIR}/src/ffmpeg/libavcodec/mathops.h ${BASEDIR}/prebuilt/$(get_target_build_directory)/ffmpeg/include/libavcodec
-cp -f ${BASEDIR}/src/ffmpeg/libavcodec/x86/mathops.h ${BASEDIR}/prebuilt/$(get_target_build_directory)/ffmpeg/include/libavcodec/x86
-cp -f ${BASEDIR}/src/ffmpeg/libavcodec/arm/mathops.h ${BASEDIR}/prebuilt/$(get_target_build_directory)/ffmpeg/include/libavcodec/arm
-cp -f ${BASEDIR}/src/ffmpeg/libavformat/network.h ${BASEDIR}/prebuilt/$(get_target_build_directory)/ffmpeg/include/libavformat
-cp -f ${BASEDIR}/src/ffmpeg/libavformat/os_support.h ${BASEDIR}/prebuilt/$(get_target_build_directory)/ffmpeg/include/libavformat
-cp -f ${BASEDIR}/src/ffmpeg/libavformat/url.h ${BASEDIR}/prebuilt/$(get_target_build_directory)/ffmpeg/include/libavformat
-cp -f ${BASEDIR}/src/ffmpeg/libavutil/internal.h ${BASEDIR}/prebuilt/$(get_target_build_directory)/ffmpeg/include/libavutil
-cp -f ${BASEDIR}/src/ffmpeg/libavutil/libm.h ${BASEDIR}/prebuilt/$(get_target_build_directory)/ffmpeg/include/libavutil
-cp -f ${BASEDIR}/src/ffmpeg/libavutil/reverse.h ${BASEDIR}/prebuilt/$(get_target_build_directory)/ffmpeg/include/libavutil
-cp -f ${BASEDIR}/src/ffmpeg/libavutil/thread.h ${BASEDIR}/prebuilt/$(get_target_build_directory)/ffmpeg/include/libavutil
-cp -f ${BASEDIR}/src/ffmpeg/libavutil/timer.h ${BASEDIR}/prebuilt/$(get_target_build_directory)/ffmpeg/include/libavutil
-cp -f ${BASEDIR}/src/ffmpeg/libavutil/x86/asm.h ${BASEDIR}/prebuilt/$(get_target_build_directory)/ffmpeg/include/libavutil/x86
-cp -f ${BASEDIR}/src/ffmpeg/libavutil/x86/timer.h ${BASEDIR}/prebuilt/$(get_target_build_directory)/ffmpeg/include/libavutil/x86
-cp -f ${BASEDIR}/src/ffmpeg/libavutil/arm/timer.h ${BASEDIR}/prebuilt/$(get_target_build_directory)/ffmpeg/include/libavutil/arm
-cp -f ${BASEDIR}/src/ffmpeg/libavutil/aarch64/timer.h ${BASEDIR}/prebuilt/$(get_target_build_directory)/ffmpeg/include/libavutil/aarch64
-cp -f ${BASEDIR}/src/ffmpeg/libavutil/x86/emms.h ${BASEDIR}/prebuilt/$(get_target_build_directory)/ffmpeg/include/libavutil/x86
+mkdir -p ${PREBUILT_DIR}/$(get_target_build_directory)/ffmpeg/include/libavutil/x86
+mkdir -p ${PREBUILT_DIR}/$(get_target_build_directory)/ffmpeg/include/libavutil/arm
+mkdir -p ${PREBUILT_DIR}/$(get_target_build_directory)/ffmpeg/include/libavutil/aarch64
+mkdir -p ${PREBUILT_DIR}/$(get_target_build_directory)/ffmpeg/include/libavcodec/x86
+mkdir -p ${PREBUILT_DIR}/$(get_target_build_directory)/ffmpeg/include/libavcodec/arm
+cp -f ${BASEDIR}/src/ffmpeg/config.h ${PREBUILT_DIR}/$(get_target_build_directory)/ffmpeg/include
+cp -f ${BASEDIR}/src/ffmpeg/libavcodec/mathops.h ${PREBUILT_DIR}/$(get_target_build_directory)/ffmpeg/include/libavcodec
+cp -f ${BASEDIR}/src/ffmpeg/libavcodec/x86/mathops.h ${PREBUILT_DIR}/$(get_target_build_directory)/ffmpeg/include/libavcodec/x86
+cp -f ${BASEDIR}/src/ffmpeg/libavcodec/arm/mathops.h ${PREBUILT_DIR}/$(get_target_build_directory)/ffmpeg/include/libavcodec/arm
+cp -f ${BASEDIR}/src/ffmpeg/libavformat/network.h ${PREBUILT_DIR}/$(get_target_build_directory)/ffmpeg/include/libavformat
+cp -f ${BASEDIR}/src/ffmpeg/libavformat/os_support.h ${PREBUILT_DIR}/$(get_target_build_directory)/ffmpeg/include/libavformat
+cp -f ${BASEDIR}/src/ffmpeg/libavformat/url.h ${PREBUILT_DIR}/$(get_target_build_directory)/ffmpeg/include/libavformat
+cp -f ${BASEDIR}/src/ffmpeg/libavutil/internal.h ${PREBUILT_DIR}/$(get_target_build_directory)/ffmpeg/include/libavutil
+cp -f ${BASEDIR}/src/ffmpeg/libavutil/libm.h ${PREBUILT_DIR}/$(get_target_build_directory)/ffmpeg/include/libavutil
+cp -f ${BASEDIR}/src/ffmpeg/libavutil/reverse.h ${PREBUILT_DIR}/$(get_target_build_directory)/ffmpeg/include/libavutil
+cp -f ${BASEDIR}/src/ffmpeg/libavutil/thread.h ${PREBUILT_DIR}/$(get_target_build_directory)/ffmpeg/include/libavutil
+cp -f ${BASEDIR}/src/ffmpeg/libavutil/timer.h ${PREBUILT_DIR}/$(get_target_build_directory)/ffmpeg/include/libavutil
+cp -f ${BASEDIR}/src/ffmpeg/libavutil/x86/asm.h ${PREBUILT_DIR}/$(get_target_build_directory)/ffmpeg/include/libavutil/x86
+cp -f ${BASEDIR}/src/ffmpeg/libavutil/x86/timer.h ${PREBUILT_DIR}/$(get_target_build_directory)/ffmpeg/include/libavutil/x86
+cp -f ${BASEDIR}/src/ffmpeg/libavutil/arm/timer.h ${PREBUILT_DIR}/$(get_target_build_directory)/ffmpeg/include/libavutil/arm
+cp -f ${BASEDIR}/src/ffmpeg/libavutil/aarch64/timer.h ${PREBUILT_DIR}/$(get_target_build_directory)/ffmpeg/include/libavutil/aarch64
+cp -f ${BASEDIR}/src/ffmpeg/libavutil/x86/emms.h ${PREBUILT_DIR}/$(get_target_build_directory)/ffmpeg/include/libavutil/x86
 
 if [ $? -eq 0 ]; then
     echo "ok"

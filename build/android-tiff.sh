@@ -43,11 +43,11 @@ if [[ ${RECONF_tiff} -eq 1 ]]; then
 fi
 
 ./configure \
-    --prefix=${BASEDIR}/prebuilt/android-$(get_target_build)/${LIB_NAME} \
+    --prefix=${PREBUILT_DIR}/android-$(get_target_build)/${LIB_NAME} \
     --with-pic \
     --with-sysroot=${ANDROID_NDK_ROOT}/toolchains/llvm/prebuilt/${TOOLCHAIN}/sysroot \
-    --with-jpeg-include-dir=${BASEDIR}/prebuilt/android-$(get_target_build)/jpeg/include \
-    --with-jpeg-lib-dir=${BASEDIR}/prebuilt/android-$(get_target_build)/jpeg/lib \
+    --with-jpeg-include-dir=${PREBUILT_DIR}/android-$(get_target_build)/jpeg/include \
+    --with-jpeg-lib-dir=${PREBUILT_DIR}/android-$(get_target_build)/jpeg/lib \
     --enable-static \
     --disable-shared \
     --disable-fast-install \

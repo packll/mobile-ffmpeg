@@ -75,7 +75,7 @@ CXX="${CXX}" \
 CXXFLAGS="${CXXFLAGS}" \
 LDFLAGS="$LDFLAGS" \
 ${OS_OPTIONS} \
-PREFIX="${BASEDIR}/prebuilt/$(get_target_build_directory)/${LIB_NAME}" \
+PREFIX="${PREBUILT_DIR}/$(get_target_build_directory)/${LIB_NAME}" \
 SDK_MIN="${IOS_MIN_VERSION}" \
 SDKROOT="${SDK_PATH}" \
 STATIC_LDFLAGS="-lc++" \

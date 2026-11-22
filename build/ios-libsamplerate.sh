@@ -51,7 +51,7 @@ if [[ ${RECONF_libsamplerate} -eq 1 ]]; then
 fi
 
 ./configure \
-    --prefix=${BASEDIR}/prebuilt/$(get_target_build_directory)/${LIB_NAME} \
+    --prefix=${PREBUILT_DIR}/$(get_target_build_directory)/${LIB_NAME} \
     --with-pic \
     --with-sysroot=${SDK_PATH} \
     --enable-static \

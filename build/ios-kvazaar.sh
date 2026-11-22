@@ -58,7 +58,7 @@ make distclean 2>/dev/null 1>/dev/null
 autoreconf_library ${LIB_NAME}
 
 ./configure \
-    --prefix=${BASEDIR}/prebuilt/$(get_target_build_directory)/${LIB_NAME} \
+    --prefix=${PREBUILT_DIR}/$(get_target_build_directory)/${LIB_NAME} \
     --with-pic \
     --with-sysroot=${SDK_PATH} \
     --enable-static \

@@ -48,10 +48,10 @@ if [[ ${RECONF_fontconfig} -eq 1 ]]; then
 fi
 
 ./configure \
-    --prefix=${BASEDIR}/prebuilt/$(get_target_build_directory)/${LIB_NAME} \
+    --prefix=${PREBUILT_DIR}/$(get_target_build_directory)/${LIB_NAME} \
     --with-pic \
     --with-libiconv-prefix=${SDK_PATH}/usr \
-    --with-expat=${BASEDIR}/prebuilt/$(get_target_build_directory)/expat \
+    --with-expat=${PREBUILT_DIR}/$(get_target_build_directory)/expat \
     --without-libintl-prefix \
     --enable-static \
     --disable-shared \

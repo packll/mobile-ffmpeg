@@ -48,11 +48,11 @@ make distclean 2>/dev/null 1>/dev/null
 autoreconf_library ${LIB_NAME}
 
 ./configure \
-    --prefix=${BASEDIR}/prebuilt/android-$(get_target_build)/${LIB_NAME} \
+    --prefix=${PREBUILT_DIR}/android-$(get_target_build)/${LIB_NAME} \
     --with-pic \
     --with-sysroot=${ANDROID_NDK_ROOT}/toolchains/llvm/prebuilt/${TOOLCHAIN}/sysroot \
     --with-zlib \
-    --with-iconv=${BASEDIR}/prebuilt/android-$(get_target_build)/libiconv/lib \
+    --with-iconv=${PREBUILT_DIR}/android-$(get_target_build)/libiconv/lib \
     --with-sax1 \
     --without-python \
     --without-debug \

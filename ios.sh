@@ -69,6 +69,9 @@ ENABLED_LIBRARIES=(0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
 
 export BASEDIR=$(pwd)
 
+# FFmpeg 及依赖库输出目录：主工程 src/ffmpegLib，可随主仓库一起提交
+export PREBUILT_DIR="${PREBUILT_DIR:-${BASEDIR}/../ffmpegLib}"
+
 RECONF_LIBRARIES=()
 REBUILD_LIBRARIES=()
 REDOWNLOAD_LIBRARIES=()
@@ -712,9 +715,9 @@ create_external_library_package() {
     # 1. CREATE INDIVIDUAL FRAMEWORKS
     for TARGET_ARCH in "${TARGET_ARCH_LIST[@]}"; do
       if [[ ${TARGET_ARCH} != "arm64e" ]]; then
-        local FRAMEWORK_PATH=${BASEDIR}/prebuilt/ios-xcframework/.tmp/ios-${TARGET_ARCH}/$2.framework
+        local FRAMEWORK_PATH=${PREBUILT_DIR}/ios-xcframework/.tmp/ios-${TARGET_ARCH}/$2.framework
         mkdir -p "${FRAMEWORK_PATH}" 1>>"${BASEDIR}/build.log" 2>&1 || exit 1
-        local STATIC_LIBRARY_PATH=$(find ${BASEDIR}/prebuilt/ios-${TARGET_ARCH} -name $3)
+        local STATIC_LIBRARY_PATH=$(find ${PREBUILT_DIR}/ios-${TARGET_ARCH} -name $3)
         local CAPITAL_CASE_LIBRARY_NAME=$(to_capital_case "$2")
 
         build_info_plist "${FRAMEWORK_PATH}/Info.plist" "$2" "com.arthenica.mobileffmpeg.${CAPITAL_CASE_LIBRARY_NAME}" "$4" "$4"
@@ -723,14 +726,14 @@ create_external_library_package() {
     done
 
     # 2. CREATE XCFRAMEWORKS
-    local XCFRAMEWORK_PATH=${BASEDIR}/prebuilt/ios-xcframework/$2.xcframework
+    local XCFRAMEWORK_PATH=${PREBUILT_DIR}/ios-xcframework/$2.xcframework
     mkdir -p "${XCFRAMEWORK_PATH}" 1>>"${BASEDIR}/build.log" 2>&1 || exit 1
 
     BUILD_COMMAND="xcodebuild -create-xcframework "
 
     for TARGET_ARCH in "${TARGET_ARCH_LIST[@]}"; do
       if [[ ${TARGET_ARCH} != "arm64e" ]]; then
-        local FRAMEWORK_PATH=${BASEDIR}/prebuilt/ios-xcframework/.tmp/ios-${TARGET_ARCH}/$2.framework
+        local FRAMEWORK_PATH=${PREBUILT_DIR}/ios-xcframework/.tmp/ios-${TARGET_ARCH}/$2.framework
         BUILD_COMMAND+=" -framework ${FRAMEWORK_PATH}"
       fi
     done
@@ -752,14 +755,14 @@ create_external_library_package() {
   else
 
     # 1. CREATE FAT LIBRARY
-    local FAT_LIBRARY_PATH=${BASEDIR}/prebuilt/ios-universal/$2-universal
+    local FAT_LIBRARY_PATH=${PREBUILT_DIR}/ios-universal/$2-universal
 
     mkdir -p "${FAT_LIBRARY_PATH}/lib" 1>>"${BASEDIR}/build.log" 2>&1 || exit 1
 
     LIPO_COMMAND="${LIPO} -create"
 
     for TARGET_ARCH in "${TARGET_ARCH_LIST[@]}"; do
-      LIPO_COMMAND+=" $(find ${BASEDIR}/prebuilt/ios-${TARGET_ARCH} -name $3)"
+      LIPO_COMMAND+=" $(find ${PREBUILT_DIR}/ios-${TARGET_ARCH} -name $3)"
     done
 
     LIPO_COMMAND+=" -output ${FAT_LIBRARY_PATH}/lib/$3"
@@ -775,17 +778,17 @@ create_external_library_package() {
 
         # 3. COPY LICENSES
         if [[ ${LIBRARY_LIBTHEORA} == "$1" ]]; then
-          license_directories=("${BASEDIR}/prebuilt/ios-universal/libtheora-universal" "${BASEDIR}/prebuilt/ios-universal/libtheoraenc-universal" "${BASEDIR}/prebuilt/ios-universal/libtheoradec-universal" "${BASEDIR}/prebuilt/ios-framework/libtheora.framework" "${BASEDIR}/prebuilt/ios-framework/libtheoraenc.framework" "${BASEDIR}/prebuilt/ios-framework/libtheoradec.framework")
+          license_directories=("${PREBUILT_DIR}/ios-universal/libtheora-universal" "${PREBUILT_DIR}/ios-universal/libtheoraenc-universal" "${PREBUILT_DIR}/ios-universal/libtheoradec-universal" "${PREBUILT_DIR}/ios-framework/libtheora.framework" "${PREBUILT_DIR}/ios-framework/libtheoraenc.framework" "${PREBUILT_DIR}/ios-framework/libtheoradec.framework")
         elif [[ ${LIBRARY_LIBVORBIS} == "$1" ]]; then
-          license_directories=("${BASEDIR}/prebuilt/ios-universal/libvorbisfile-universal" "${BASEDIR}/prebuilt/ios-universal/libvorbisenc-universal" "${BASEDIR}/prebuilt/ios-universal/libvorbis-universal" "${BASEDIR}/prebuilt/ios-framework/libvorbisfile.framework" "${BASEDIR}/prebuilt/ios-framework/libvorbisenc.framework" "${BASEDIR}/prebuilt/ios-framework/libvorbis.framework")
+          license_directories=("${PREBUILT_DIR}/ios-universal/libvorbisfile-universal" "${PREBUILT_DIR}/ios-universal/libvorbisenc-universal" "${PREBUILT_DIR}/ios-universal/libvorbis-universal" "${PREBUILT_DIR}/ios-framework/libvorbisfile.framework" "${PREBUILT_DIR}/ios-framework/libvorbisenc.framework" "${PREBUILT_DIR}/ios-framework/libvorbis.framework")
         elif [[ ${LIBRARY_LIBWEBP} == "$1" ]]; then
-          license_directories=("${BASEDIR}/prebuilt/ios-universal/libwebpmux-universal" "${BASEDIR}/prebuilt/ios-universal/libwebpdemux-universal" "${BASEDIR}/prebuilt/ios-universal/libwebp-universal" "${BASEDIR}/prebuilt/ios-framework/libwebpmux.framework" "${BASEDIR}/prebuilt/ios-framework/libwebpdemux.framework" "${BASEDIR}/prebuilt/ios-framework/libwebp.framework")
+          license_directories=("${PREBUILT_DIR}/ios-universal/libwebpmux-universal" "${PREBUILT_DIR}/ios-universal/libwebpdemux-universal" "${PREBUILT_DIR}/ios-universal/libwebp-universal" "${PREBUILT_DIR}/ios-framework/libwebpmux.framework" "${PREBUILT_DIR}/ios-framework/libwebpdemux.framework" "${PREBUILT_DIR}/ios-framework/libwebp.framework")
         elif [[ ${LIBRARY_OPENCOREAMR} == "$1" ]]; then
-          license_directories=("${BASEDIR}/prebuilt/ios-universal/libopencore-amrnb-universal" "${BASEDIR}/prebuilt/ios-framework/libopencore-amrnb.framework")
+          license_directories=("${PREBUILT_DIR}/ios-universal/libopencore-amrnb-universal" "${PREBUILT_DIR}/ios-framework/libopencore-amrnb.framework")
         elif [[ ${LIBRARY_NETTLE} == "$1" ]]; then
-          license_directories=("${BASEDIR}/prebuilt/ios-universal/libnettle-universal" "${BASEDIR}/prebuilt/ios-universal/libhogweed-universal" "${BASEDIR}/prebuilt/ios-framework/libnettle.framework" "${BASEDIR}/prebuilt/ios-framework/libhogweed.framework")
+          license_directories=("${PREBUILT_DIR}/ios-universal/libnettle-universal" "${PREBUILT_DIR}/ios-universal/libhogweed-universal" "${PREBUILT_DIR}/ios-framework/libnettle.framework" "${PREBUILT_DIR}/ios-framework/libhogweed.framework")
         else
-          license_directories=("${BASEDIR}/prebuilt/ios-universal/$2-universal" "${BASEDIR}/prebuilt/ios-framework/$2.framework")
+          license_directories=("${PREBUILT_DIR}/ios-universal/$2-universal" "${PREBUILT_DIR}/ios-framework/$2.framework")
         fi
 
         RC=$(copy_external_library_license "$1" "${license_directories[@]}")
@@ -803,7 +806,7 @@ create_external_library_package() {
 # 2 - static library name
 # 3 - library version
 create_static_framework() {
-  local FRAMEWORK_PATH=${BASEDIR}/prebuilt/ios-framework/$1.framework
+  local FRAMEWORK_PATH=${PREBUILT_DIR}/ios-framework/$1.framework
 
   mkdir -p "${FRAMEWORK_PATH}" 1>>"${BASEDIR}/build.log" 2>&1 || exit 1
 
@@ -811,7 +814,7 @@ create_static_framework() {
 
   build_info_plist "${FRAMEWORK_PATH}/Info.plist" "${FFMPEG_LIB}" "com.arthenica.mobileffmpeg.${CAPITAL_CASE_LIBRARY_NAME}" "$3" "$3"
 
-  cp "${BASEDIR}/prebuilt/ios-universal/$1-universal/lib/$2" "${FRAMEWORK_PATH}/$1" 1>>"${BASEDIR}/build.log" 2>&1
+  cp "${PREBUILT_DIR}/ios-universal/$1-universal/lib/$2" "${FRAMEWORK_PATH}/$1" 1>>"${BASEDIR}/build.log" 2>&1
 
   echo "$?"
 }
@@ -849,7 +852,7 @@ get_external_library_license_path() {
 }
 
 get_external_library_version() {
-  echo "$(grep Version ${BASEDIR}/prebuilt/ios-${TARGET_ARCH_LIST[0]}/pkgconfig/$1.pc 2>>"${BASEDIR}/build.log" | sed 's/Version://g;s/\ //g')"
+  echo "$(grep Version ${PREBUILT_DIR}/ios-${TARGET_ARCH_LIST[0]}/pkgconfig/$1.pc 2>>"${BASEDIR}/build.log" | sed 's/Version://g;s/\ //g')"
 }
 
 # ENABLE COMMON FUNCTIONS
@@ -1113,17 +1116,17 @@ if [[ -n ${TARGET_ARCH_LIST[0]} ]]; then
 
   # BUILDING PACKAGES
   if [[ -n ${MOBILE_FFMPEG_XCF_BUILD} ]]; then
-    echo -e -n "\n\nCreating xcframeworks under prebuilt: "
+    echo -e -n "\n\nCreating xcframeworks under ${PREBUILT_DIR}: "
 
-    rm -rf "${BASEDIR}/prebuilt/ios-xcframework" 1>>"${BASEDIR}/build.log" 2>&1 || exit 1
-    mkdir -p "${BASEDIR}/prebuilt/ios-xcframework" 1>>"${BASEDIR}/build.log" 2>&1 || exit 1
+    rm -rf "${PREBUILT_DIR}/ios-xcframework" 1>>"${BASEDIR}/build.log" 2>&1 || exit 1
+    mkdir -p "${PREBUILT_DIR}/ios-xcframework" 1>>"${BASEDIR}/build.log" 2>&1 || exit 1
   else
-    echo -e -n "\n\nCreating frameworks and universal libraries under prebuilt: "
+    echo -e -n "\n\nCreating frameworks and universal libraries under ${PREBUILT_DIR}: "
 
-    rm -rf "${BASEDIR}/prebuilt/ios-universal" 1>>"${BASEDIR}/build.log" 2>&1 || exit 1
-    mkdir -p "${BASEDIR}/prebuilt/ios-universal" 1>>"${BASEDIR}/build.log" 2>&1 || exit 1
-    rm -rf "${BASEDIR}/prebuilt/ios-framework" 1>>"${BASEDIR}/build.log" 2>&1 || exit 1
-    mkdir -p "${BASEDIR}/prebuilt/ios-framework" 1>>"${BASEDIR}/build.log" 2>&1 || exit 1
+    rm -rf "${PREBUILT_DIR}/ios-universal" 1>>"${BASEDIR}/build.log" 2>&1 || exit 1
+    mkdir -p "${PREBUILT_DIR}/ios-universal" 1>>"${BASEDIR}/build.log" 2>&1 || exit 1
+    rm -rf "${PREBUILT_DIR}/ios-framework" 1>>"${BASEDIR}/build.log" 2>&1 || exit 1
+    mkdir -p "${PREBUILT_DIR}/ios-framework" 1>>"${BASEDIR}/build.log" 2>&1 || exit 1
   fi
 
   # 1. EXTERNAL LIBRARIES
@@ -1244,7 +1247,7 @@ if [[ -n ${TARGET_ARCH_LIST[0]} ]]; then
     # FFMPEG
     for FFMPEG_LIB in ${FFMPEG_LIBS}; do
 
-      XCFRAMEWORK_PATH=${BASEDIR}/prebuilt/ios-xcframework/${FFMPEG_LIB}.xcframework
+      XCFRAMEWORK_PATH=${PREBUILT_DIR}/ios-xcframework/${FFMPEG_LIB}.xcframework
       mkdir -p "${XCFRAMEWORK_PATH}" 1>>"${BASEDIR}/build.log" 2>&1 || exit 1
 
       echo -e "Creating package for ${FFMPEG_LIB}\n" 1>>"${BASEDIR}/build.log" 2>&1
@@ -1258,19 +1261,19 @@ if [[ -n ${TARGET_ARCH_LIST[0]} ]]; then
           FFMPEG_LIB_UPPERCASE=$(echo "${FFMPEG_LIB}" | tr '[a-z]' '[A-Z]')
           FFMPEG_LIB_CAPITALCASE=$(to_capital_case "${FFMPEG_LIB}")
 
-          FFMPEG_LIB_MAJOR=$(grep "#define ${FFMPEG_LIB_UPPERCASE}_VERSION_MAJOR" "${BASEDIR}/prebuilt/ios-${TARGET_ARCH}/ffmpeg/include/${FFMPEG_LIB}/version.h" | sed -e "s/#define ${FFMPEG_LIB_UPPERCASE}_VERSION_MAJOR//g;s/\ //g")
-          FFMPEG_LIB_MINOR=$(grep "#define ${FFMPEG_LIB_UPPERCASE}_VERSION_MINOR" "${BASEDIR}/prebuilt/ios-${TARGET_ARCH}/ffmpeg/include/${FFMPEG_LIB}/version.h" | sed -e "s/#define ${FFMPEG_LIB_UPPERCASE}_VERSION_MINOR//g;s/\ //g")
-          FFMPEG_LIB_MICRO=$(grep "#define ${FFMPEG_LIB_UPPERCASE}_VERSION_MICRO" "${BASEDIR}/prebuilt/ios-${TARGET_ARCH}/ffmpeg/include/${FFMPEG_LIB}/version.h" | sed "s/#define ${FFMPEG_LIB_UPPERCASE}_VERSION_MICRO//g;s/\ //g")
+          FFMPEG_LIB_MAJOR=$(grep "#define ${FFMPEG_LIB_UPPERCASE}_VERSION_MAJOR" "${PREBUILT_DIR}/ios-${TARGET_ARCH}/ffmpeg/include/${FFMPEG_LIB}/version.h" | sed -e "s/#define ${FFMPEG_LIB_UPPERCASE}_VERSION_MAJOR//g;s/\ //g")
+          FFMPEG_LIB_MINOR=$(grep "#define ${FFMPEG_LIB_UPPERCASE}_VERSION_MINOR" "${PREBUILT_DIR}/ios-${TARGET_ARCH}/ffmpeg/include/${FFMPEG_LIB}/version.h" | sed -e "s/#define ${FFMPEG_LIB_UPPERCASE}_VERSION_MINOR//g;s/\ //g")
+          FFMPEG_LIB_MICRO=$(grep "#define ${FFMPEG_LIB_UPPERCASE}_VERSION_MICRO" "${PREBUILT_DIR}/ios-${TARGET_ARCH}/ffmpeg/include/${FFMPEG_LIB}/version.h" | sed "s/#define ${FFMPEG_LIB_UPPERCASE}_VERSION_MICRO//g;s/\ //g")
 
           FFMPEG_LIB_VERSION="${FFMPEG_LIB_MAJOR}.${FFMPEG_LIB_MINOR}.${FFMPEG_LIB_MICRO}"
 
-          FFMPEG_LIB_FRAMEWORK_PATH=${BASEDIR}/prebuilt/ios-xcframework/.tmp/ios-${TARGET_ARCH}/${FFMPEG_LIB}.framework
+          FFMPEG_LIB_FRAMEWORK_PATH=${PREBUILT_DIR}/ios-xcframework/.tmp/ios-${TARGET_ARCH}/${FFMPEG_LIB}.framework
 
           rm -rf "${FFMPEG_LIB_FRAMEWORK_PATH}" 1>>"${BASEDIR}/build.log" 2>&1
           mkdir -p "${FFMPEG_LIB_FRAMEWORK_PATH}/Headers" 1>>"${BASEDIR}/build.log" 2>&1 || exit 1
 
-          cp -r ${BASEDIR}/prebuilt/ios-${TARGET_ARCH}/ffmpeg/include/${FFMPEG_LIB}/* ${FFMPEG_LIB_FRAMEWORK_PATH}/Headers 1>>"${BASEDIR}/build.log" 2>&1
-          cp "${BASEDIR}/prebuilt/ios-${TARGET_ARCH}/ffmpeg/lib/${FFMPEG_LIB}.${BUILD_LIBRARY_EXTENSION}" "${FFMPEG_LIB_FRAMEWORK_PATH}/${FFMPEG_LIB}" 1>>"${BASEDIR}/build.log" 2>&1
+          cp -r ${PREBUILT_DIR}/ios-${TARGET_ARCH}/ffmpeg/include/${FFMPEG_LIB}/* ${FFMPEG_LIB_FRAMEWORK_PATH}/Headers 1>>"${BASEDIR}/build.log" 2>&1
+          cp "${PREBUILT_DIR}/ios-${TARGET_ARCH}/ffmpeg/lib/${FFMPEG_LIB}.${BUILD_LIBRARY_EXTENSION}" "${FFMPEG_LIB_FRAMEWORK_PATH}/${FFMPEG_LIB}" 1>>"${BASEDIR}/build.log" 2>&1
 
           # COPY THE LICENSES
           if [ ${GPL_ENABLED} == "yes" ]; then
@@ -1308,7 +1311,7 @@ if [[ -n ${TARGET_ARCH_LIST[0]} ]]; then
     done
 
     # MOBILE FFMPEG
-    XCFRAMEWORK_PATH=${BASEDIR}/prebuilt/ios-xcframework/mobileffmpeg.xcframework
+    XCFRAMEWORK_PATH=${PREBUILT_DIR}/ios-xcframework/mobileffmpeg.xcframework
     mkdir -p "${XCFRAMEWORK_PATH}" 1>>"${BASEDIR}/build.log" 2>&1 || exit 1
 
     BUILD_COMMAND="xcodebuild -create-xcframework "
@@ -1317,15 +1320,15 @@ if [[ -n ${TARGET_ARCH_LIST[0]} ]]; then
 
       if [[ ${TARGET_ARCH} != "arm64e" ]]; then
 
-        MOBILE_FFMPEG_FRAMEWORK_PATH="${BASEDIR}/prebuilt/ios-xcframework/.tmp/ios-${TARGET_ARCH}/mobileffmpeg.framework"
+        MOBILE_FFMPEG_FRAMEWORK_PATH="${PREBUILT_DIR}/ios-xcframework/.tmp/ios-${TARGET_ARCH}/mobileffmpeg.framework"
 
         rm -rf "${MOBILE_FFMPEG_FRAMEWORK_PATH}" 1>>"${BASEDIR}/build.log" 2>&1
         mkdir -p "${MOBILE_FFMPEG_FRAMEWORK_PATH}/Headers" 1>>"${BASEDIR}/build.log" 2>&1 || exit 1
         mkdir -p "${MOBILE_FFMPEG_FRAMEWORK_PATH}/Modules" 1>>"${BASEDIR}/build.log" 2>&1 || exit 1
         build_modulemap "${MOBILE_FFMPEG_FRAMEWORK_PATH}/Modules/module.modulemap"
 
-        cp -r ${BASEDIR}/prebuilt/ios-${TARGET_ARCH}/mobile-ffmpeg/include/* ${MOBILE_FFMPEG_FRAMEWORK_PATH}/Headers 1>>"${BASEDIR}/build.log" 2>&1
-        cp "${BASEDIR}/prebuilt/ios-${TARGET_ARCH}/mobile-ffmpeg/lib/libmobileffmpeg.${BUILD_LIBRARY_EXTENSION}" "${MOBILE_FFMPEG_FRAMEWORK_PATH}/mobileffmpeg" 1>>"${BASEDIR}/build.log" 2>&1
+        cp -r ${PREBUILT_DIR}/ios-${TARGET_ARCH}/mobile-ffmpeg/include/* ${MOBILE_FFMPEG_FRAMEWORK_PATH}/Headers 1>>"${BASEDIR}/build.log" 2>&1
+        cp "${PREBUILT_DIR}/ios-${TARGET_ARCH}/mobile-ffmpeg/lib/libmobileffmpeg.${BUILD_LIBRARY_EXTENSION}" "${MOBILE_FFMPEG_FRAMEWORK_PATH}/mobileffmpeg" 1>>"${BASEDIR}/build.log" 2>&1
 
         # COPY THE LICENSES
         if [ ${GPL_ENABLED} == "yes" ]; then
@@ -1358,18 +1361,18 @@ if [[ -n ${TARGET_ARCH_LIST[0]} ]]; then
 
   else
 
-    FFMPEG_UNIVERSAL="${BASEDIR}/prebuilt/ios-universal/ffmpeg-universal"
+    FFMPEG_UNIVERSAL="${PREBUILT_DIR}/ios-universal/ffmpeg-universal"
     mkdir -p "${FFMPEG_UNIVERSAL}/include" 1>>"${BASEDIR}/build.log" 2>&1 || exit 1
     mkdir -p "${FFMPEG_UNIVERSAL}/lib" 1>>"${BASEDIR}/build.log" 2>&1 || exit 1
 
-    cp -r ${BASEDIR}/prebuilt/ios-${TARGET_ARCH_LIST[0]}/ffmpeg/include/* ${FFMPEG_UNIVERSAL}/include 1>>"${BASEDIR}/build.log" 2>&1
-    cp "${BASEDIR}/prebuilt/ios-${TARGET_ARCH_LIST[0]}/ffmpeg/include/config.h" "${FFMPEG_UNIVERSAL}/include" 1>>"${BASEDIR}/build.log" 2>&1
+    cp -r ${PREBUILT_DIR}/ios-${TARGET_ARCH_LIST[0]}/ffmpeg/include/* ${FFMPEG_UNIVERSAL}/include 1>>"${BASEDIR}/build.log" 2>&1
+    cp "${PREBUILT_DIR}/ios-${TARGET_ARCH_LIST[0]}/ffmpeg/include/config.h" "${FFMPEG_UNIVERSAL}/include" 1>>"${BASEDIR}/build.log" 2>&1
 
     for FFMPEG_LIB in ${FFMPEG_LIBS}; do
       LIPO_COMMAND="${LIPO} -create"
 
       for TARGET_ARCH in "${TARGET_ARCH_LIST[@]}"; do
-        LIPO_COMMAND+=" ${BASEDIR}/prebuilt/ios-${TARGET_ARCH}/ffmpeg/lib/${FFMPEG_LIB}.${BUILD_LIBRARY_EXTENSION}"
+        LIPO_COMMAND+=" ${PREBUILT_DIR}/ios-${TARGET_ARCH}/ffmpeg/lib/${FFMPEG_LIB}.${BUILD_LIBRARY_EXTENSION}"
       done
 
       LIPO_COMMAND+=" -output ${FFMPEG_UNIVERSAL}/lib/${FFMPEG_LIB}.${BUILD_LIBRARY_EXTENSION}"
@@ -1390,7 +1393,7 @@ if [[ -n ${TARGET_ARCH_LIST[0]} ]]; then
 
       FFMPEG_LIB_VERSION="${FFMPEG_LIB_MAJOR}.${FFMPEG_LIB_MINOR}.${FFMPEG_LIB_MICRO}"
 
-      FFMPEG_LIB_FRAMEWORK_PATH="${BASEDIR}/prebuilt/ios-framework/${FFMPEG_LIB}.framework"
+      FFMPEG_LIB_FRAMEWORK_PATH="${PREBUILT_DIR}/ios-framework/${FFMPEG_LIB}.framework"
 
       rm -rf "${FFMPEG_LIB_FRAMEWORK_PATH}" 1>>"${BASEDIR}/build.log" 2>&1
       mkdir -p "${FFMPEG_LIB_FRAMEWORK_PATH}/Headers" 1>>"${BASEDIR}/build.log" 2>&1 || exit 1
@@ -1423,8 +1426,8 @@ if [[ -n ${TARGET_ARCH_LIST[0]} ]]; then
 
     # 3. MOBILE FFMPEG
     MOBILE_FFMPEG_VERSION=$(get_mobile_ffmpeg_version)
-    MOBILE_FFMPEG_UNIVERSAL="${BASEDIR}/prebuilt/ios-universal/mobile-ffmpeg-universal"
-    MOBILE_FFMPEG_FRAMEWORK_PATH="${BASEDIR}/prebuilt/ios-framework/mobileffmpeg.framework"
+    MOBILE_FFMPEG_UNIVERSAL="${PREBUILT_DIR}/ios-universal/mobile-ffmpeg-universal"
+    MOBILE_FFMPEG_FRAMEWORK_PATH="${PREBUILT_DIR}/ios-framework/mobileffmpeg.framework"
     mkdir -p "${MOBILE_FFMPEG_UNIVERSAL}/include" 1>>"${BASEDIR}/build.log" 2>&1 || exit 1
     mkdir -p "${MOBILE_FFMPEG_UNIVERSAL}/lib" 1>>"${BASEDIR}/build.log" 2>&1 || exit 1
     rm -rf "${MOBILE_FFMPEG_FRAMEWORK_PATH}" 1>>"${BASEDIR}/build.log" 2>&1
@@ -1433,7 +1436,7 @@ if [[ -n ${TARGET_ARCH_LIST[0]} ]]; then
 
     LIPO_COMMAND="${LIPO} -create"
     for TARGET_ARCH in "${TARGET_ARCH_LIST[@]}"; do
-      LIPO_COMMAND+=" ${BASEDIR}/prebuilt/ios-${TARGET_ARCH}/mobile-ffmpeg/lib/libmobileffmpeg.${BUILD_LIBRARY_EXTENSION}"
+      LIPO_COMMAND+=" ${PREBUILT_DIR}/ios-${TARGET_ARCH}/mobile-ffmpeg/lib/libmobileffmpeg.${BUILD_LIBRARY_EXTENSION}"
     done
     LIPO_COMMAND+=" -output ${MOBILE_FFMPEG_UNIVERSAL}/lib/libmobileffmpeg.${BUILD_LIBRARY_EXTENSION}"
 
@@ -1444,7 +1447,7 @@ if [[ -n ${TARGET_ARCH_LIST[0]} ]]; then
       exit 1
     fi
 
-    cp -r ${BASEDIR}/prebuilt/ios-${TARGET_ARCH_LIST[0]}/mobile-ffmpeg/include/* ${MOBILE_FFMPEG_UNIVERSAL}/include 1>>"${BASEDIR}/build.log" 2>&1
+    cp -r ${PREBUILT_DIR}/ios-${TARGET_ARCH_LIST[0]}/mobile-ffmpeg/include/* ${MOBILE_FFMPEG_UNIVERSAL}/include 1>>"${BASEDIR}/build.log" 2>&1
     cp -r ${MOBILE_FFMPEG_UNIVERSAL}/include/* ${MOBILE_FFMPEG_FRAMEWORK_PATH}/Headers 1>>"${BASEDIR}/build.log" 2>&1
     cp "${MOBILE_FFMPEG_UNIVERSAL}/lib/libmobileffmpeg.${BUILD_LIBRARY_EXTENSION}" "${MOBILE_FFMPEG_FRAMEWORK_PATH}/mobileffmpeg" 1>>"${BASEDIR}/build.log" 2>&1
 

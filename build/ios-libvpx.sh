@@ -95,7 +95,7 @@ cd ${BASEDIR}/src/${LIB_NAME} || exit 1
 make distclean 2>/dev/null 1>/dev/null
 
 ./configure \
-    --prefix=${BASEDIR}/prebuilt/$(get_target_build_directory)/${LIB_NAME} \
+    --prefix=${PREBUILT_DIR}/$(get_target_build_directory)/${LIB_NAME} \
     --target="${TARGET}" \
     --extra-cflags="${CFLAGS}" \
     --extra-cxxflags="${CXXFLAGS}" \

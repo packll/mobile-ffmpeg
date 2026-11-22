@@ -43,7 +43,7 @@ if [[ ! -f ${BASEDIR}/src/${LIB_NAME}/configure ]] || [[ ${RECONF_libsndfile} -e
 fi
 
 ./configure \
-    --prefix=${BASEDIR}/prebuilt/android-$(get_target_build)/${LIB_NAME} \
+    --prefix=${PREBUILT_DIR}/android-$(get_target_build)/${LIB_NAME} \
     --with-pic \
     --with-sysroot=${ANDROID_NDK_ROOT}/toolchains/llvm/prebuilt/${TOOLCHAIN}/sysroot \
     --enable-static \

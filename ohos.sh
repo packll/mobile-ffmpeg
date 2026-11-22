@@ -12,11 +12,15 @@
 # NDK 通过 OHOS_NDK_HOME 指定；未设置时自动从 DEVECO_SDK_HOME 或
 # DevEco Studio 默认安装路径查找 default/openharmony/native。
 #
-# 产物: prebuilt/ohos-<abi>/ffmpeg/{lib,include}
+# 产物: ../ffmpegLib/ohos-<abi>/ffmpeg/{lib,include}（主工程 src/ffmpegLib）
 
 set -u
 
 export BASEDIR=$(pwd)
+
+# FFmpeg 输出目录：主工程 src/ffmpegLib，可随主仓库一起提交
+export PREBUILT_DIR="${PREBUILT_DIR:-${BASEDIR}/../ffmpegLib}"
+
 FFMPEG_SOURCE_DIR="${BASEDIR}/src/ffmpeg"
 LOG_FILE="${BASEDIR}/build.log"
 
@@ -142,7 +146,7 @@ build_abi() {
     ;;
   esac
 
-  local PREFIX="${BASEDIR}/prebuilt/ohos-${ABI}/ffmpeg"
+  local PREFIX="${PREBUILT_DIR}/ohos-${ABI}/ffmpeg"
   local CC="${OHOS_LLVM_BIN}/clang --target=${OHOS_TARGET} --sysroot=${OHOS_SYSROOT}"
 
   echo ""
@@ -297,4 +301,4 @@ if [[ ${RESULT} -ne 0 ]]; then
 fi
 
 echo ""
-echo "FFmpeg for OHOS built successfully. Libraries are under ${BASEDIR}/prebuilt/ohos-*/ffmpeg"
+echo "FFmpeg for OHOS built successfully. Libraries are under ${PREBUILT_DIR}/ohos-*/ffmpeg"

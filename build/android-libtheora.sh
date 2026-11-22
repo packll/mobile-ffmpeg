@@ -50,7 +50,7 @@ else
 fi
 
 ./configure \
-    --prefix=${BASEDIR}/prebuilt/android-$(get_target_build)/${LIB_NAME} \
+    --prefix=${PREBUILT_DIR}/android-$(get_target_build)/${LIB_NAME} \
     --with-pic \
     --enable-static \
     --disable-shared \

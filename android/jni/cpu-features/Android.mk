@@ -1,4 +1,4 @@
-LOCAL_PATH := $(call my-dir)/../../../prebuilt/android-$(TARGET_ARCH)/cpu-features/lib
+LOCAL_PATH := $(call my-dir)/../../../../ffmpegLib/android-$(TARGET_ARCH)/cpu-features/lib
 
 include $(CLEAR_VARS)
 LOCAL_ARM_MODE := $(MY_ARM_MODE)

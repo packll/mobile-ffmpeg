@@ -455,7 +455,7 @@ create_fontconfig_package_config() {
     local FONTCONFIG_VERSION="$1"
 
     cat > "${INSTALL_PKG_CONFIG_DIR}/fontconfig.pc" << EOF
-prefix=${BASEDIR}/prebuilt/$(get_target_build_directory)/fontconfig
+prefix=${PREBUILT_DIR}/$(get_target_build_directory)/fontconfig
 exec_prefix=\${prefix}
 libdir=\${exec_prefix}/lib
 includedir=\${prefix}/include
@@ -480,7 +480,7 @@ create_freetype_package_config() {
     local FREETYPE_VERSION="$1"
 
     cat > "${INSTALL_PKG_CONFIG_DIR}/freetype2.pc" << EOF
-prefix=${BASEDIR}/prebuilt/$(get_target_build_directory)/freetype
+prefix=${PREBUILT_DIR}/$(get_target_build_directory)/freetype
 exec_prefix=\${prefix}
 libdir=\${exec_prefix}/lib
 includedir=\${prefix}/include
@@ -501,7 +501,7 @@ create_giflib_package_config() {
     local GIFLIB_VERSION="$1"
 
     cat > "${INSTALL_PKG_CONFIG_DIR}/giflib.pc" << EOF
-prefix=${BASEDIR}/prebuilt/$(get_target_build_directory)/giflib
+prefix=${PREBUILT_DIR}/$(get_target_build_directory)/giflib
 exec_prefix=\${prefix}
 libdir=\${prefix}/lib
 includedir=\${prefix}/include
@@ -520,7 +520,7 @@ create_gmp_package_config() {
     local GMP_VERSION="$1"
 
     cat > "${INSTALL_PKG_CONFIG_DIR}/gmp.pc" << EOF
-prefix=${BASEDIR}/prebuilt/$(get_target_build_directory)/gmp
+prefix=${PREBUILT_DIR}/$(get_target_build_directory)/gmp
 exec_prefix=\${prefix}
 libdir=\${prefix}/lib
 includedir=\${prefix}/include
@@ -539,7 +539,7 @@ create_gnutls_package_config() {
     local GNUTLS_VERSION="$1"
 
     cat > "${INSTALL_PKG_CONFIG_DIR}/gnutls.pc" << EOF
-prefix=${BASEDIR}/prebuilt/$(get_target_build_directory)/gnutls
+prefix=${PREBUILT_DIR}/$(get_target_build_directory)/gnutls
 exec_prefix=\${prefix}
 libdir=\${exec_prefix}/lib
 includedir=\${prefix}/include
@@ -559,7 +559,7 @@ create_libmp3lame_package_config() {
     local LAME_VERSION="$1"
 
     cat > "${INSTALL_PKG_CONFIG_DIR}/libmp3lame.pc" << EOF
-prefix=${BASEDIR}/prebuilt/$(get_target_build_directory)/lame
+prefix=${PREBUILT_DIR}/$(get_target_build_directory)/lame
 exec_prefix=\${prefix}
 libdir=\${exec_prefix}/lib
 includedir=\${prefix}/include
@@ -597,7 +597,7 @@ create_libpng_package_config() {
     local LIBPNG_VERSION="$1"
 
     cat > "${INSTALL_PKG_CONFIG_DIR}/libpng.pc" << EOF
-prefix=${BASEDIR}/prebuilt/$(get_target_build_directory)/libpng
+prefix=${PREBUILT_DIR}/$(get_target_build_directory)/libpng
 exec_prefix=\${prefix}
 libdir=\${exec_prefix}/lib
 includedir=\${prefix}/include
@@ -615,7 +615,7 @@ create_libvorbis_package_config() {
     local LIBVORBIS_VERSION="$1"
 
     cat > "${INSTALL_PKG_CONFIG_DIR}/vorbis.pc" << EOF
-prefix=${BASEDIR}/prebuilt/$(get_target_build_directory)/libvorbis
+prefix=${PREBUILT_DIR}/$(get_target_build_directory)/libvorbis
 exec_prefix=\${prefix}
 libdir=\${prefix}/lib
 includedir=\${prefix}/include
@@ -630,7 +630,7 @@ Cflags: -I\${includedir}
 EOF
 
 cat > "${INSTALL_PKG_CONFIG_DIR}/vorbisenc.pc" << EOF
-prefix=${BASEDIR}/prebuilt/$(get_target_build_directory)/libvorbis
+prefix=${PREBUILT_DIR}/$(get_target_build_directory)/libvorbis
 exec_prefix=\${prefix}
 libdir=\${prefix}/lib
 includedir=\${prefix}/include
@@ -646,7 +646,7 @@ Cflags: -I\${includedir}
 EOF
 
 cat > "${INSTALL_PKG_CONFIG_DIR}/vorbisfile.pc" << EOF
-prefix=${BASEDIR}/prebuilt/$(get_target_build_directory)/libvorbis
+prefix=${PREBUILT_DIR}/$(get_target_build_directory)/libvorbis
 exec_prefix=\${prefix}
 libdir=\${prefix}/lib
 includedir=\${prefix}/include
@@ -666,7 +666,7 @@ create_libxml2_package_config() {
     local LIBXML2_VERSION="$1"
 
     cat > "${INSTALL_PKG_CONFIG_DIR}/libxml-2.0.pc" << EOF
-prefix=${BASEDIR}/prebuilt/$(get_target_build_directory)/libxml2
+prefix=${PREBUILT_DIR}/$(get_target_build_directory)/libxml2
 exec_prefix=\${prefix}
 libdir=\${exec_prefix}/lib
 includedir=\${prefix}/include
@@ -686,7 +686,7 @@ create_snappy_package_config() {
     local SNAPPY_VERSION="$1"
 
     cat > "${INSTALL_PKG_CONFIG_DIR}/snappy.pc" << EOF
-prefix=${BASEDIR}/prebuilt/$(get_target_build_directory)/snappy
+prefix=${PREBUILT_DIR}/$(get_target_build_directory)/snappy
 exec_prefix=\${prefix}
 libdir=\${prefix}/lib
 includedir=\${prefix}/include
@@ -705,7 +705,7 @@ create_soxr_package_config() {
     local SOXR_VERSION="$1"
 
     cat > "${INSTALL_PKG_CONFIG_DIR}/soxr.pc" << EOF
-prefix=${BASEDIR}/prebuilt/$(get_target_build_directory)/soxr
+prefix=${PREBUILT_DIR}/$(get_target_build_directory)/soxr
 exec_prefix=\${prefix}
 libdir=\${prefix}/lib
 includedir=\${prefix}/include
@@ -724,7 +724,7 @@ create_tesseract_package_config() {
     local TESSERACT_VERSION="$1"
 
     cat > "${INSTALL_PKG_CONFIG_DIR}/tesseract.pc" << EOF
-prefix=${BASEDIR}/prebuilt/$(get_target_build_directory)/tesseract
+prefix=${PREBUILT_DIR}/$(get_target_build_directory)/tesseract
 exec_prefix=\${prefix}
 bindir=\${exec_prefix}/bin
 datarootdir=\${prefix}/share
@@ -765,7 +765,7 @@ create_xvidcore_package_config() {
     local XVIDCORE_VERSION="$1"
 
     cat > "${INSTALL_PKG_CONFIG_DIR}/xvidcore.pc" << EOF
-prefix=${BASEDIR}/prebuilt/$(get_target_build_directory)/xvidcore
+prefix=${PREBUILT_DIR}/$(get_target_build_directory)/xvidcore
 exec_prefix=\${prefix}
 libdir=\${prefix}/lib
 includedir=\${prefix}/include
@@ -863,7 +863,7 @@ set_toolchain_clang_paths() {
     export RANLIB="$(xcrun --sdk $(get_sdk_name) -f ranlib)"
     export STRIP="$(xcrun --sdk $(get_sdk_name) -f strip)"
 
-    export INSTALL_PKG_CONFIG_DIR="${BASEDIR}/prebuilt/$(get_target_build_directory)/pkgconfig"
+    export INSTALL_PKG_CONFIG_DIR="${PREBUILT_DIR}/$(get_target_build_directory)/pkgconfig"
     export ZLIB_PACKAGE_CONFIG_PATH="${INSTALL_PKG_CONFIG_DIR}/zlib.pc"
     export BZIP2_PACKAGE_CONFIG_PATH="${INSTALL_PKG_CONFIG_DIR}/bzip2.pc"
     export LIB_ICONV_PACKAGE_CONFIG_PATH="${INSTALL_PKG_CONFIG_DIR}/libiconv.pc"

@@ -53,11 +53,11 @@ if [[ ${RECONF_nettle} -eq 1 ]]; then
 fi
 
 ./configure \
-    --prefix=${BASEDIR}/prebuilt/android-$(get_target_build)/${LIB_NAME} \
+    --prefix=${PREBUILT_DIR}/android-$(get_target_build)/${LIB_NAME} \
     --enable-pic \
     --enable-static \
-    --with-include-path=${BASEDIR}/prebuilt/android-$(get_target_build)/gmp/include \
-    --with-lib-path=${BASEDIR}/prebuilt/android-$(get_target_build)/gmp/lib \
+    --with-include-path=${PREBUILT_DIR}/android-$(get_target_build)/gmp/include \
+    --with-lib-path=${PREBUILT_DIR}/android-$(get_target_build)/gmp/lib \
     --disable-shared \
     --disable-mini-gmp \
     --disable-assembler \

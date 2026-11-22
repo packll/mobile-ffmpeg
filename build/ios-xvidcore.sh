@@ -66,7 +66,7 @@ case ${ARCH} in
 esac
 
 ./configure \
-    --prefix=${BASEDIR}/prebuilt/$(get_target_build_directory)/${LIB_NAME} \
+    --prefix=${PREBUILT_DIR}/$(get_target_build_directory)/${LIB_NAME} \
     ${ASM_FLAGS} \
     --host=${BUILD_HOST} || exit 1
 
@@ -78,4 +78,4 @@ create_xvidcore_package_config "1.3.6"
 make install || exit 1
 
 # REMOVE DYNAMIC LIBS
-rm -f ${BASEDIR}/prebuilt/$(get_target_build_directory)/${LIB_NAME}/lib/libxvidcore.dylib*
+rm -f ${PREBUILT_DIR}/$(get_target_build_directory)/${LIB_NAME}/lib/libxvidcore.dylib*

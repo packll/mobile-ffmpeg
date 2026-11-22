@@ -1,4 +1,4 @@
-LOCAL_PATH := $(call my-dir)/../../../prebuilt/android-$(TARGET_ARCH)/ffmpeg/lib
+LOCAL_PATH := $(call my-dir)/../../../../ffmpegLib/android-$(TARGET_ARCH)/ffmpeg/lib
 
 MY_ARM_MODE := arm
 

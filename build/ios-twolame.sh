@@ -51,7 +51,7 @@ export SNDFILE_CFLAGS="$(pkg-config --cflags sndfile)"
 export SNDFILE_LIBS="$(pkg-config --libs --static sndfile)"
 
 ./configure \
-    --prefix=${BASEDIR}/prebuilt/$(get_target_build_directory)/${LIB_NAME} \
+    --prefix=${PREBUILT_DIR}/$(get_target_build_directory)/${LIB_NAME} \
     --with-pic \
     --with-sysroot=${SDK_PATH} \
     --enable-static \

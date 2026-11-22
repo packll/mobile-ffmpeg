@@ -111,7 +111,7 @@ set_dependency_rebuilt_flag() {
 
 echo -e "\nBuilding ${ARCH} platform on API level ${API}\n"
 echo -e "\nINFO: Starting new build for ${ARCH} on API level ${API} at "$(date)"\n" 1>>${BASEDIR}/build.log 2>&1
-INSTALL_BASE="${BASEDIR}/prebuilt/android-$(get_target_build)"
+INSTALL_BASE="${PREBUILT_DIR}/android-$(get_target_build)"
 
 # CREATING PACKAGE CONFIG DIRECTORY
 PKG_CONFIG_DIRECTORY="${INSTALL_BASE}/pkgconfig"

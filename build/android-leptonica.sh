@@ -31,8 +31,8 @@ set_toolchain_clang_paths ${LIB_NAME}
 BUILD_HOST=$(get_build_host)
 export CFLAGS=$(get_cflags ${LIB_NAME})
 export CXXFLAGS=$(get_cxxflags ${LIB_NAME})
-export CPPFLAGS="-I${BASEDIR}/prebuilt/android-$(get_target_build)/giflib/include"
-export LDFLAGS="$(get_ldflags ${LIB_NAME}) -L${BASEDIR}/prebuilt/android-$(get_target_build)/giflib/lib -lgif"
+export CPPFLAGS="-I${PREBUILT_DIR}/android-$(get_target_build)/giflib/include"
+export LDFLAGS="$(get_ldflags ${LIB_NAME}) -L${PREBUILT_DIR}/android-$(get_target_build)/giflib/lib -lgif"
 export PKG_CONFIG_LIBDIR="${INSTALL_PKG_CONFIG_DIR}"
 
 export LIBPNG_CFLAGS="$(pkg-config --cflags libpng)"
@@ -60,7 +60,7 @@ if [[ ${RECONF_leptonica} -eq 1 ]]; then
 fi
 
 ./configure \
-    --prefix=${BASEDIR}/prebuilt/android-$(get_target_build)/${LIB_NAME} \
+    --prefix=${PREBUILT_DIR}/android-$(get_target_build)/${LIB_NAME} \
     --with-pic \
     --with-zlib \
     --with-libpng \

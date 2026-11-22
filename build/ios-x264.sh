@@ -65,7 +65,7 @@ ${SED_INLINE} 's/CFLAGS=\"\$CFLAGS \-arch x86_64/CFLAGS=\"\$CFLAGS/g' configure
 ${SED_INLINE} 's/LDFLAGS=\"\$LDFLAGS \-arch x86_64/LDFLAGS=\"\$CFLAGS/g' configure
 
 ./configure \
-    --prefix=${BASEDIR}/prebuilt/$(get_target_build_directory)/${LIB_NAME} \
+    --prefix=${PREBUILT_DIR}/$(get_target_build_directory)/${LIB_NAME} \
     --enable-pic \
     --sysroot=${SDK_PATH} \
     --enable-static \

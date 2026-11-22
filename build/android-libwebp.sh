@@ -55,7 +55,7 @@ make distclean 2>/dev/null 1>/dev/null
 autoreconf_library ${LIB_NAME}
 
 ./configure \
-    --prefix=${BASEDIR}/prebuilt/android-$(get_target_build)/${LIB_NAME} \
+    --prefix=${PREBUILT_DIR}/android-$(get_target_build)/${LIB_NAME} \
     --with-pic \
     --with-sysroot=${ANDROID_NDK_ROOT}/toolchains/llvm/prebuilt/${TOOLCHAIN}/sysroot \
     --enable-static \
@@ -63,14 +63,14 @@ autoreconf_library ${LIB_NAME}
     --disable-dependency-tracking \
     --enable-libwebpmux \
     ${ARCH_OPTIONS} \
-    --with-pngincludedir="${BASEDIR}/prebuilt/android-$(get_target_build)/libpng/include" \
-    --with-pnglibdir="${BASEDIR}/prebuilt/android-$(get_target_build)/libpng/lib" \
-    --with-jpegincludedir="${BASEDIR}/prebuilt/android-$(get_target_build)/jpeg/include" \
-    --with-jpeglibdir="${BASEDIR}/prebuilt/android-$(get_target_build)/jpeg/lib" \
-    --with-gifincludedir="${BASEDIR}/prebuilt/android-$(get_target_build)/giflib/include" \
-    --with-giflibdir="${BASEDIR}/prebuilt/android-$(get_target_build)/giflib/lib" \
-    --with-tiffincludedir="${BASEDIR}/prebuilt/android-$(get_target_build)/tiff/include" \
-    --with-tifflibdir="${BASEDIR}/prebuilt/android-$(get_target_build)/tiff/lib" \
+    --with-pngincludedir="${PREBUILT_DIR}/android-$(get_target_build)/libpng/include" \
+    --with-pnglibdir="${PREBUILT_DIR}/android-$(get_target_build)/libpng/lib" \
+    --with-jpegincludedir="${PREBUILT_DIR}/android-$(get_target_build)/jpeg/include" \
+    --with-jpeglibdir="${PREBUILT_DIR}/android-$(get_target_build)/jpeg/lib" \
+    --with-gifincludedir="${PREBUILT_DIR}/android-$(get_target_build)/giflib/include" \
+    --with-giflibdir="${PREBUILT_DIR}/android-$(get_target_build)/giflib/lib" \
+    --with-tiffincludedir="${PREBUILT_DIR}/android-$(get_target_build)/tiff/include" \
+    --with-tifflibdir="${PREBUILT_DIR}/android-$(get_target_build)/tiff/lib" \
     --host=${BUILD_HOST} || exit 1
 
 make -j$(get_cpu_count) || exit 1

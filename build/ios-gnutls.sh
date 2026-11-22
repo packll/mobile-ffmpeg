@@ -41,12 +41,12 @@ export CFLAGS="${COMMON_CFLAGS} -I${SDK_PATH}/usr/include"
 export CXXFLAGS="${COMMON_CXXFLAGS}"
 export LDFLAGS="${COMMON_LDFLAGS} -L${SDK_PATH}/usr/lib"
 
-export NETTLE_CFLAGS="-I${BASEDIR}/prebuilt/$(get_target_build_directory)/nettle/include"
-export NETTLE_LIBS="-L${BASEDIR}/prebuilt/$(get_target_build_directory)/nettle/lib -lnettle -L${BASEDIR}/prebuilt/$(get_target_build_directory)/gmp/lib -lgmp"
-export HOGWEED_CFLAGS="-I${BASEDIR}/prebuilt/$(get_target_build_directory)/nettle/include"
-export HOGWEED_LIBS="-L${BASEDIR}/prebuilt/$(get_target_build_directory)/nettle/lib -lhogweed -L${BASEDIR}/prebuilt/$(get_target_build_directory)/gmp/lib -lgmp"
-export GMP_CFLAGS="-I${BASEDIR}/prebuilt/$(get_target_build_directory)/gmp/include"
-export GMP_LIBS="-L${BASEDIR}/prebuilt/$(get_target_build_directory)/gmp/lib -lgmp"
+export NETTLE_CFLAGS="-I${PREBUILT_DIR}/$(get_target_build_directory)/nettle/include"
+export NETTLE_LIBS="-L${PREBUILT_DIR}/$(get_target_build_directory)/nettle/lib -lnettle -L${PREBUILT_DIR}/$(get_target_build_directory)/gmp/lib -lgmp"
+export HOGWEED_CFLAGS="-I${PREBUILT_DIR}/$(get_target_build_directory)/nettle/include"
+export HOGWEED_LIBS="-L${PREBUILT_DIR}/$(get_target_build_directory)/nettle/lib -lhogweed -L${PREBUILT_DIR}/$(get_target_build_directory)/gmp/lib -lgmp"
+export GMP_CFLAGS="-I${PREBUILT_DIR}/$(get_target_build_directory)/gmp/include"
+export GMP_LIBS="-L${PREBUILT_DIR}/$(get_target_build_directory)/gmp/lib -lgmp"
 
 ARCH_OPTIONS=""
 case ${ARCH} in
@@ -77,7 +77,7 @@ if [[ ${RECONF_gnutls} -eq 1 ]]; then
 fi
 
 ./configure \
-    --prefix=${BASEDIR}/prebuilt/$(get_target_build_directory)/${LIB_NAME} \
+    --prefix=${PREBUILT_DIR}/$(get_target_build_directory)/${LIB_NAME} \
     --with-pic \
     --with-sysroot=${SDK_PATH} \
     --with-included-libtasn1 \

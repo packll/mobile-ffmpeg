@@ -52,7 +52,7 @@ fi
 ${SED_INLINE} 's/\-lrt//g' ${BASEDIR}/src/${LIB_NAME}/configure
 
 LIBS="${ARCH_SPECIFIC_LIBS}" ./configure \
-    --prefix=${BASEDIR}/prebuilt/android-$(get_target_build)/${LIB_NAME} \
+    --prefix=${PREBUILT_DIR}/android-$(get_target_build)/${LIB_NAME} \
     --with-pic \
     --with-sysroot=${ANDROID_NDK_ROOT}/toolchains/llvm/prebuilt/${TOOLCHAIN}/sysroot \
     --enable-static \

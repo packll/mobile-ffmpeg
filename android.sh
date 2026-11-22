@@ -65,6 +65,9 @@ ENABLED_LIBRARIES=(0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
 
 export BASEDIR=$(pwd)
 
+# FFmpeg 及依赖库输出目录：主工程 src/ffmpegLib，可随主仓库一起提交
+export PREBUILT_DIR="${PREBUILT_DIR:-${BASEDIR}/../ffmpegLib}"
+
 
 # USING API LEVEL 24 / Android 7.0 (NOUGAT)
 export API=24

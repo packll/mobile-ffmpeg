@@ -12,10 +12,10 @@ ifeq ($(TARGET_ARCH_ABI), armeabi-v7a)
     endif
 endif
 ifeq ($(MY_ARMV7_NEON), true)
-    FFMPEG_INCLUDES := $(MY_LOCAL_PATH)/../../prebuilt/android-$(TARGET_ARCH)/neon/ffmpeg/include
+    FFMPEG_INCLUDES := $(MY_LOCAL_PATH)/../../../ffmpegLib/android-$(TARGET_ARCH)/neon/ffmpeg/include
     $(call import-module, cpu-features/neon)
 else
-    FFMPEG_INCLUDES := $(MY_LOCAL_PATH)/../../prebuilt/android-$(TARGET_ARCH)/ffmpeg/include
+    FFMPEG_INCLUDES := $(MY_LOCAL_PATH)/../../../ffmpegLib/android-$(TARGET_ARCH)/ffmpeg/include
     $(call import-module, cpu-features)
 endif
 

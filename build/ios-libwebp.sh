@@ -59,7 +59,7 @@ make distclean 2>/dev/null 1>/dev/null
 autoreconf_library ${LIB_NAME}
 
 ./configure \
-    --prefix="${BASEDIR}/prebuilt/$(get_target_build_directory)/${LIB_NAME}" \
+    --prefix="${PREBUILT_DIR}/$(get_target_build_directory)/${LIB_NAME}" \
     --with-pic \
     --with-sysroot=${SDK_PATH} \
     --enable-static \
@@ -67,14 +67,14 @@ autoreconf_library ${LIB_NAME}
     --disable-dependency-tracking \
     --enable-libwebpmux \
     ${ARCH_OPTIONS} \
-    --with-pngincludedir="${BASEDIR}/prebuilt/$(get_target_build_directory)/libpng/include" \
-    --with-pnglibdir="${BASEDIR}/prebuilt/$(get_target_build_directory)/libpng/lib" \
-    --with-jpegincludedir="${BASEDIR}/prebuilt/$(get_target_build_directory)/jpeg/include" \
-    --with-jpeglibdir="${BASEDIR}/prebuilt/$(get_target_build_directory)/jpeg/lib" \
-    --with-gifincludedir="${BASEDIR}/prebuilt/$(get_target_build_directory)/giflib/include" \
-    --with-giflibdir="${BASEDIR}/prebuilt/$(get_target_build_directory)/giflib/lib" \
-    --with-tiffincludedir="${BASEDIR}/prebuilt/$(get_target_build_directory)/tiff/include" \
-    --with-tifflibdir="${BASEDIR}/prebuilt/$(get_target_build_directory)/tiff/lib" \
+    --with-pngincludedir="${PREBUILT_DIR}/$(get_target_build_directory)/libpng/include" \
+    --with-pnglibdir="${PREBUILT_DIR}/$(get_target_build_directory)/libpng/lib" \
+    --with-jpegincludedir="${PREBUILT_DIR}/$(get_target_build_directory)/jpeg/include" \
+    --with-jpeglibdir="${PREBUILT_DIR}/$(get_target_build_directory)/jpeg/lib" \
+    --with-gifincludedir="${PREBUILT_DIR}/$(get_target_build_directory)/giflib/include" \
+    --with-giflibdir="${PREBUILT_DIR}/$(get_target_build_directory)/giflib/lib" \
+    --with-tiffincludedir="${PREBUILT_DIR}/$(get_target_build_directory)/tiff/include" \
+    --with-tifflibdir="${PREBUILT_DIR}/$(get_target_build_directory)/tiff/lib" \
     --host=${BUILD_HOST} || exit 1
 
 make -j$(get_cpu_count) || exit 1

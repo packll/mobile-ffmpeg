@@ -44,10 +44,10 @@ if [[ ${RECONF_lame} -eq 1 ]]; then
 fi
 
 ./configure \
-    --prefix=${BASEDIR}/prebuilt/android-$(get_target_build)/${LIB_NAME} \
+    --prefix=${PREBUILT_DIR}/android-$(get_target_build)/${LIB_NAME} \
     --with-pic \
     --with-sysroot=${ANDROID_NDK_ROOT}/toolchains/llvm/prebuilt/${TOOLCHAIN}/sysroot \
-    --with-libiconv-prefix=${BASEDIR}/prebuilt/android-$(get_target_build)/libiconv \
+    --with-libiconv-prefix=${PREBUILT_DIR}/android-$(get_target_build)/libiconv \
     --enable-static \
     --disable-shared \
     --disable-fast-install \

@@ -60,7 +60,7 @@ autoreconf_library ${LIB_NAME}
 mkdir -p ${BASEDIR}/src/${LIB_NAME}/lib || exit 1
 
 ./configure \
-    --prefix=${BASEDIR}/prebuilt/$(get_target_build_directory)/${LIB_NAME} \
+    --prefix=${PREBUILT_DIR}/$(get_target_build_directory)/${LIB_NAME} \
     --host=${BUILD_HOST} || exit 1
 
 make AR="$AR" -j$(get_cpu_count) || exit 1

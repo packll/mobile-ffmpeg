@@ -57,11 +57,11 @@ if [[ ${RECONF_nettle} -eq 1 ]]; then
 fi
 
 ./configure \
-    --prefix=${BASEDIR}/prebuilt/$(get_target_build_directory)/${LIB_NAME} \
+    --prefix=${PREBUILT_DIR}/$(get_target_build_directory)/${LIB_NAME} \
     --enable-pic \
     --enable-static \
-    --with-include-path=${BASEDIR}/prebuilt/$(get_target_build_directory)/gmp/include \
-    --with-lib-path=${BASEDIR}/prebuilt/$(get_target_build_directory)/gmp/lib \
+    --with-include-path=${PREBUILT_DIR}/$(get_target_build_directory)/gmp/include \
+    --with-lib-path=${PREBUILT_DIR}/$(get_target_build_directory)/gmp/lib \
     --disable-shared \
     --disable-mini-gmp \
     --disable-assembler \

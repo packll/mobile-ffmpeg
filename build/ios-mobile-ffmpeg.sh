@@ -39,9 +39,9 @@ fi
 COMMON_CFLAGS=$(get_cflags ${LIB_NAME})
 COMMON_LDFLAGS=$(get_ldflags ${LIB_NAME})
 
-export CFLAGS="${COMMON_CFLAGS} -I${BASEDIR}/prebuilt/$(get_target_build_directory)/ffmpeg/include"
+export CFLAGS="${COMMON_CFLAGS} -I${PREBUILT_DIR}/$(get_target_build_directory)/ffmpeg/include"
 export CXXFLAGS=$(get_cxxflags ${LIB_NAME})
-export LDFLAGS="${COMMON_LDFLAGS} -L${BASEDIR}/prebuilt/$(get_target_build_directory)/ffmpeg/lib -framework Foundation -framework CoreVideo -lavdevice"
+export LDFLAGS="${COMMON_LDFLAGS} -L${PREBUILT_DIR}/$(get_target_build_directory)/ffmpeg/lib -framework Foundation -framework CoreVideo -lavdevice"
 export PKG_CONFIG_LIBDIR="${INSTALL_PKG_CONFIG_DIR}"
 
 # ALWAYS BUILD STATIC LIBRARIES
@@ -72,7 +72,7 @@ ${SED_INLINE} 's/$wl-undefined //g' configure
 ${SED_INLINE} 's/${wl}suppress//g' configure
 
 ./configure \
-    --prefix=${BASEDIR}/prebuilt/$(get_target_build_directory)/${LIB_NAME} \
+    --prefix=${PREBUILT_DIR}/$(get_target_build_directory)/${LIB_NAME} \
     --with-pic \
     --with-sysroot=${SDK_PATH} \
     ${BUILD_LIBRARY_OPTIONS} \
@@ -86,7 +86,7 @@ if [ $? -ne 0 ]; then
     exit 1
 fi
 
-rm -rf ${BASEDIR}/prebuilt/$(get_target_build_directory)/${LIB_NAME} 1>>${BASEDIR}/build.log 2>&1
+rm -rf ${PREBUILT_DIR}/$(get_target_build_directory)/${LIB_NAME} 1>>${BASEDIR}/build.log 2>&1
 make -j$(get_cpu_count) install 1>>${BASEDIR}/build.log 2>&1
 
 if [ $? -eq 0 ]; then

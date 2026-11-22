@@ -35,8 +35,8 @@ set_toolchain_clang_paths ${LIB_NAME}
 BUILD_HOST=$(get_build_host)
 export CFLAGS="$(get_cflags ${LIB_NAME})"
 export CXXFLAGS="$(get_cxxflags ${LIB_NAME})"
-export CPPFLAGS="-I${BASEDIR}/prebuilt/$(get_target_build_directory)/giflib/include"
-export LDFLAGS="$(get_ldflags ${LIB_NAME}) -L${BASEDIR}/prebuilt/$(get_target_build_directory)/giflib/lib -lgif"
+export CPPFLAGS="-I${PREBUILT_DIR}/$(get_target_build_directory)/giflib/include"
+export LDFLAGS="$(get_ldflags ${LIB_NAME}) -L${PREBUILT_DIR}/$(get_target_build_directory)/giflib/lib -lgif"
 export PKG_CONFIG_LIBDIR="${INSTALL_PKG_CONFIG_DIR}"
 
 export LIBPNG_CFLAGS="$(pkg-config --cflags libpng)"
@@ -64,7 +64,7 @@ if [[ ${RECONF_leptonica} -eq 1 ]]; then
 fi
 
 ./configure \
-    --prefix=${BASEDIR}/prebuilt/$(get_target_build_directory)/${LIB_NAME} \
+    --prefix=${PREBUILT_DIR}/$(get_target_build_directory)/${LIB_NAME} \
     --with-pic \
     --with-zlib \
     --with-libpng \

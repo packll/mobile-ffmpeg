@@ -63,7 +63,7 @@ rm -f ${BASEDIR}/src/${LIB_NAME}/configure
 cp ${BASEDIR}/tools/make/configure.sdl ${BASEDIR}/src/${LIB_NAME}/configure
 
 ./configure \
-    --prefix=${BASEDIR}/prebuilt/$(get_target_build_directory)/${LIB_NAME} \
+    --prefix=${PREBUILT_DIR}/$(get_target_build_directory)/${LIB_NAME} \
     --with-pic \
     --with-sysroot=${SDK_PATH} \
     --enable-static \

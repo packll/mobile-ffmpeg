@@ -47,7 +47,7 @@ export SNDFILE_CFLAGS="$(pkg-config --cflags sndfile)"
 export SNDFILE_LIBS="$(pkg-config --libs --static sndfile)"
 
 ./configure \
-    --prefix=${BASEDIR}/prebuilt/android-$(get_target_build)/${LIB_NAME} \
+    --prefix=${PREBUILT_DIR}/android-$(get_target_build)/${LIB_NAME} \
     --with-pic \
     --with-sysroot=${ANDROID_NDK_ROOT}/toolchains/llvm/prebuilt/${TOOLCHAIN}/sysroot \
     --enable-static \
